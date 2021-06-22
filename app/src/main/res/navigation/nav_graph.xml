@@ -3,24 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/testFragment">
+    app:startDestination="@id/deliveryFragment">
+
     <fragment
-        android:id="@+id/testFragment"
-        android:name="com.dw.deliveryapp.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" >
-        <action
-            android:id="@+id/action_testFragment_to_secondFragment"
-            app:destination="@id/secondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/secondFragment"
-        android:name="com.dw.deliveryapp.SecondFragment"
-        android:label="fragment_second"
-        tools:layout="@layout/fragment_second" />
-    <fragment
-        android:id="@+id/blankFragment"
-        android:name="com.dw.deliveryapp.BlankFragment"
-        android:label="fragment_blank"
-        tools:layout="@layout/fragment_blank" />
+        android:id="@+id/deliveryFragment"
+        android:name="com.dw.deliveryapp.ui.DeliveryFragment"
+        android:label="fragment_delivery"
+        tools:layout="@layout/fragment_delivery" />
 </navigation>
