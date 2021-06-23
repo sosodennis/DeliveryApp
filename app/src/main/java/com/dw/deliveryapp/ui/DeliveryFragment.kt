@@ -1,12 +1,13 @@
 package com.dw.deliveryapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.dw.deliveryapp.data.model.Delivery
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dw.deliveryapp.adapter.DeliveryAdapter
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,14 +59,15 @@ class DeliveryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.delivery.observe(viewLifecycleOwner) { result ->
-            if (result.orEmpty().isNotEmpty()) {
-                binding.textContent.text = result[0].goodsPicture
+        val deliveryAdapter = DeliveryAdapter()
+        binding.apply {
+            recyclerView.apply {
+                adapter = deliveryAdapter
+                layoutManager = LinearLayoutManager(this@DeliveryFragment.context)
             }
         }
-
-        binding.buttonAddDelivery.setOnClickListener {
-            viewModel.insert(Delivery("2312", "", "", "sadsadsadasda", "", ""))
+        viewModel.delivery.observe(viewLifecycleOwner) { deliveries ->
+            deliveryAdapter.submitList(deliveries)
         }
     }
 

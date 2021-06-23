@@ -13,8 +13,8 @@ interface DeliveryDao {
     @Query("SELECT * FROM deliveries")
     fun getDeliveries(): Flow<List<Delivery>>
 
-    @Query("SELECT * FROM deliveries WHERE id = :plantId")
-    fun getDelivery(plantId: String): Flow<Delivery>
+    @Query("SELECT * FROM deliveries WHERE id = :id")
+    fun getDelivery(id: String): Flow<Delivery>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(deliveries: List<Delivery>)

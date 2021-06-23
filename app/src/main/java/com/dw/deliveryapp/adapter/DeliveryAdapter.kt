@@ -11,13 +11,13 @@ import com.dw.deliveryapp.databinding.ItemDeliveryBinding
 
 class DeliveryAdapter :
     ListAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
-
-
     class DeliveryViewHolder(private val binding: ItemDeliveryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(delivery: Delivery) {
             binding.apply {
-
+                textAmount.text = delivery.deliveryFee
+                textFrom.text = "From: ${delivery.routeStart}"
+                textTo.text = "To: ${delivery.routeEnd}"
             }
         }
     }

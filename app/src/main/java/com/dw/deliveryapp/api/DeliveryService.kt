@@ -1,6 +1,6 @@
 package com.dw.deliveryapp.api
 
-import com.dw.deliveryapp.data.model.Delivery
+import com.dw.deliveryapp.data.dto.DeliveryDto
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,5 +27,5 @@ interface DeliveryService {
     suspend fun getDeliveries(
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
-    ): List<Delivery>
+    ): List<DeliveryDto>
 }

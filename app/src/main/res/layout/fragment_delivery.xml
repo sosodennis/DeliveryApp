@@ -6,23 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.DeliveryFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button_add_delivery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
-      />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:text="ADD"
-        android:id="@+id/button_add_delivery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_delivery" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
