@@ -22,6 +22,9 @@ buildscript {
         hilt_version = "2.35"
         hilt_navigation_version = "1.0.0"
 
+        //Life Cycle
+        lifecycle_version = "2.3.1"
+
         //Database
         room_database_version = "2.3.0"
         dbinspector_version = "4.0.0"

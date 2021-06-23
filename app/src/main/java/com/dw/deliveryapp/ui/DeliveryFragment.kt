@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,7 +24,7 @@ private const val ARG_PARAM2 = "param2"
  */
 @AndroidEntryPoint
 class DeliveryFragment : Fragment() {
-    private val deliveryViewModel: DeliveryViewModel by viewModels()
+    private val viewModel: DeliveryViewModel by viewModels()
 
     private var _binding: FragmentDeliveryBinding? = null
     private val binding get() = _binding!!
@@ -54,6 +54,19 @@ class DeliveryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.delivery.observe(viewLifecycleOwner) { result ->
+            if (result.orEmpty().isNotEmpty()) {
+                binding.textContent.text = result[0].goodsPicture
+            }
+        }
+
+        binding.buttonAddDelivery.setOnClickListener {
+            viewModel.insert(Delivery("2312", "", "", "sadsadsadasda", "", ""))
+        }
     }
 
     companion object {
