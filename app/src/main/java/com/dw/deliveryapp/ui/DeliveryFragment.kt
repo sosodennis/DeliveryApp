@@ -1,16 +1,23 @@
 package com.dw.deliveryapp.ui
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dw.deliveryapp.R
 import com.dw.deliveryapp.adapter.DeliveryAdapter
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +32,9 @@ private const val ARG_PARAM2 = "param2"
  */
 @AndroidEntryPoint
 class DeliveryFragment : Fragment() {
+    @Inject
+    lateinit var deliveryAdapter: DeliveryAdapter
+
     private val viewModel: DeliveryViewModel by viewModels()
 
     private var _binding: FragmentDeliveryBinding? = null
@@ -59,7 +69,7 @@ class DeliveryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val deliveryAdapter = DeliveryAdapter()
+
         binding.apply {
             recyclerView.apply {
                 adapter = deliveryAdapter
@@ -69,6 +79,11 @@ class DeliveryFragment : Fragment() {
         viewModel.delivery.observe(viewLifecycleOwner) { deliveries ->
             deliveryAdapter.submitList(deliveries)
         }
+
+        binding.buttonDetail.setOnClickListener {
+
+        }
+
     }
 
     companion object {

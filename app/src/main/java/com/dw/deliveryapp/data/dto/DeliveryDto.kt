@@ -10,15 +10,18 @@ data class DeliveryDto(
     val route: Route,
     val sender: Sender,
     var offset: Int
-)
+) {
+    data class Route(
+        val start: String,
+        val end: String
+    )
 
-data class Route(
-    val start: String,
-    val end: String
-)
+    data class Sender(
+        val phone: String,
+        val name: String,
+        val email: String
+    )
+}
 
-data class Sender(
-    val phone: String,
-    val name: String,
-    val email: String
-)
+
+

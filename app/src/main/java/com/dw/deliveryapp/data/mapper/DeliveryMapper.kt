@@ -1,8 +1,6 @@
 package com.dw.deliveryapp.data.mapper
 
 import com.dw.deliveryapp.data.dto.DeliveryDto
-import com.dw.deliveryapp.data.dto.Route
-import com.dw.deliveryapp.data.dto.Sender
 import com.dw.deliveryapp.data.model.Delivery
 
 class DeliveryMapper : Mapper<Delivery, DeliveryDto> {
@@ -13,8 +11,8 @@ class DeliveryMapper : Mapper<Delivery, DeliveryDto> {
         entity.goodsPicture,
         entity.deliveryFee,
         entity.surcharge,
-        Route(entity.routeStart, entity.routeEnd),
-        Sender(entity.senderPhone, entity.senderName, entity.senderEmail),
+        DeliveryDto.Route(entity.routeStart, entity.routeEnd),
+        DeliveryDto.Sender(entity.senderPhone, entity.senderName, entity.senderEmail),
         entity.offset
     )
 

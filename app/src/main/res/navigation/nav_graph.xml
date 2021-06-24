@@ -9,5 +9,14 @@
         android:id="@+id/deliveryFragment"
         android:name="com.dw.deliveryapp.ui.DeliveryFragment"
         android:label="fragment_delivery"
-        tools:layout="@layout/fragment_delivery" />
+        tools:layout="@layout/fragment_delivery" >
+        <action
+            android:id="@+id/action_deliveryFragment_to_deliveryDetailFragment"
+            app:destination="@id/deliveryDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deliveryDetailFragment"
+        android:name="com.dw.deliveryapp.DeliveryDetailFragment"
+        android:label="fragment_delivery_detail"
+        tools:layout="@layout/fragment_delivery_detail" />
 </navigation>
