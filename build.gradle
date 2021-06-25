@@ -25,12 +25,16 @@ buildscript {
         //Life Cycle
         lifecycle_version = "2.3.1"
 
+        //Paging
+        paging_version = "3.0.0"
+
         //Database
         room_database_version = "2.3.0"
         dbinspector_version = "4.0.0"
 
         //Network
         retrofit2_version = "2.9.0"
+        okhttp_logging_interceptor = "4.9.1"
     }
 
     repositories {

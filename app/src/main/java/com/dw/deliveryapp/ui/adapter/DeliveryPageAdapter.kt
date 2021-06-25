@@ -1,24 +1,22 @@
-package com.dw.deliveryapp.adapter
+package com.dw.deliveryapp.ui.adapter
 
 
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
-@Module
-@InstallIn(FragmentComponent::class)
-class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
-    ListAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
+
+@FragmentScoped
+class DeliveryPageAdapter @Inject constructor(private val appResources: Resources) :
+    PagingDataAdapter<Delivery, DeliveryPageAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
     class DeliveryViewHolder(
         private val binding: ItemDeliveryBinding,
@@ -28,7 +26,7 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
 
         fun bind(delivery: Delivery) {
             binding.apply {
-                textAmount.text = delivery.deliveryFee
+                textAmount.text = delivery.offset.toString()
                 textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
                 textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
             }

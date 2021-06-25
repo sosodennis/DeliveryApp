@@ -1,22 +1,19 @@
 package com.dw.deliveryapp.ui
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dw.deliveryapp.R
-import com.dw.deliveryapp.adapter.DeliveryAdapter
+import com.dw.deliveryapp.ui.adapter.DeliveryPageAdapter
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 
@@ -30,10 +27,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DeliveryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class DeliveryFragment : Fragment() {
     @Inject
-    lateinit var deliveryAdapter: DeliveryAdapter
+    lateinit var deliveryPageAdapter: DeliveryPageAdapter
 
     private val viewModel: DeliveryViewModel by viewModels()
 
@@ -72,17 +70,16 @@ class DeliveryFragment : Fragment() {
 
         binding.apply {
             recyclerView.apply {
-                adapter = deliveryAdapter
+                adapter = deliveryPageAdapter
                 layoutManager = LinearLayoutManager(this@DeliveryFragment.context)
             }
         }
-        viewModel.delivery.observe(viewLifecycleOwner) { deliveries ->
-            deliveryAdapter.submitList(deliveries)
+        lifecycleScope.launchWhenCreated {
+            viewModel.getDeliveryPage().collectLatest {
+                deliveryPageAdapter.submitData(it)
+            }
         }
 
-        binding.buttonDetail.setOnClickListener {
-
-        }
 
     }
 
