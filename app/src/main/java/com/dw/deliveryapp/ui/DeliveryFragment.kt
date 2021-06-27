@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dw.deliveryapp.ui.adapter.DeliveryPageAdapter
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
+import com.dw.deliveryapp.ui.adapter.DeliveryAdapter
+import com.dw.deliveryapp.ui.adapter.DeliveryLoadStateAdapter
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,11 +28,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DeliveryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-@ExperimentalPagingApi
 @AndroidEntryPoint
 class DeliveryFragment : Fragment() {
     @Inject
-    lateinit var deliveryPageAdapter: DeliveryPageAdapter
+    lateinit var deliveryAdapter: DeliveryAdapter
 
     private val viewModel: DeliveryViewModel by viewModels()
 
@@ -67,20 +67,32 @@ class DeliveryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        observeData()
+    }
 
+    private fun setupRecyclerView() {
         binding.apply {
             recyclerView.apply {
-                adapter = deliveryPageAdapter
+                deliveryAdapter.setOnItemClickListener {
+                    println(it.id)
+                    findNavController().navigate(DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment())
+                }
+                adapter = deliveryAdapter.withLoadStateHeaderAndFooter(
+                    header = DeliveryLoadStateAdapter(deliveryAdapter),
+                    footer = DeliveryLoadStateAdapter(deliveryAdapter)
+                )
                 layoutManager = LinearLayoutManager(this@DeliveryFragment.context)
             }
         }
+    }
+
+    private fun observeData() {
         lifecycleScope.launchWhenCreated {
             viewModel.getDeliveryPage().collectLatest {
-                deliveryPageAdapter.submitData(it)
+                deliveryAdapter.submitData(it)
             }
         }
-
-
     }
 
     companion object {

@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dw.deliveryapp.R
@@ -15,10 +16,16 @@ import javax.inject.Inject
 
 
 @FragmentScoped
-class DeliveryPageAdapter @Inject constructor(private val appResources: Resources) :
-    PagingDataAdapter<Delivery, DeliveryPageAdapter.DeliveryViewHolder>(DeliveryComparator()) {
+class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
+    PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
-    class DeliveryViewHolder(
+    private var onItemClickListener: ((Delivery) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Delivery) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    inner class DeliveryViewHolder(
         private val binding: ItemDeliveryBinding,
         private val appResources: Resources
     ) :
@@ -29,9 +36,13 @@ class DeliveryPageAdapter @Inject constructor(private val appResources: Resource
                 textAmount.text = delivery.offset.toString()
                 textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
                 textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
+                viewDeliveryItem.setOnClickListener {
+                    onItemClickListener?.let { it(delivery) }
+                }
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveryViewHolder {
         val binding =
