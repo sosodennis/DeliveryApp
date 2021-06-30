@@ -7,9 +7,9 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dw.deliveryapp.databinding.ItemDeliveryLoadStateBinding
-import dagger.hilt.android.scopes.FragmentScoped
+import dagger.hilt.android.scopes.ActivityScoped
 
-@FragmentScoped
+@ActivityScoped
 class DeliveryLoadStateAdapter(
     private val adapter: DeliveryAdapter
 ) : LoadStateAdapter<DeliveryLoadStateAdapter.DeliveryLoadStateItemViewHolder>() {

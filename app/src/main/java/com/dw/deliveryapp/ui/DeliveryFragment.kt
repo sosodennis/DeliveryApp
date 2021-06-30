@@ -1,5 +1,6 @@
 package com.dw.deliveryapp.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -65,10 +66,14 @@ class DeliveryFragment : Fragment() {
         _binding = null
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        observeData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeData()
     }
 
     private fun setupRecyclerView() {

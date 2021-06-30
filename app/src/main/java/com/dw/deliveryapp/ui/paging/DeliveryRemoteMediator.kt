@@ -43,13 +43,11 @@ class DeliveryRemoteMediator(
         try {
             val offset = (page - 1) * state.config.pageSize
             val deliveriesDto = deliveryService.getDeliveries(offset, state.config.pageSize)
-            var index = offset
-            deliveriesDto.map { it.offset = index++ }
+            deliveriesDto.map { it.page = page }
             val deliveries = deliveryMapper.toEntityList(deliveriesDto)
             val isEndOfList = deliveries.isEmpty()
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    //TODO: Need to apply some logic to prevent delete all each time.
                     appDatabase.deliveryDao().deleteAll()
                     appDatabase.deliveryRemoteKeyDao().deleteAll()
                 }
@@ -89,7 +87,6 @@ class DeliveryRemoteMediator(
                 val prevKey = remoteKeys?.prevKey
                 return prevKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
-
         }
     }
 

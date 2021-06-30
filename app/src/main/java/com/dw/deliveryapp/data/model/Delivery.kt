@@ -16,7 +16,7 @@ data class Delivery(
     val senderPhone: String,
     val senderName: String,
     val senderEmail: String,
-    val offset: Int
+    val page: Int = 0
     //TODO: add other fields
 ) {
     override fun toString() = id

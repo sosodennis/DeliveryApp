@@ -5,17 +5,16 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
-import dagger.hilt.android.scopes.FragmentScoped
+import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 
-@FragmentScoped
+@ActivityScoped
 class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
@@ -33,7 +32,7 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
 
         fun bind(delivery: Delivery) {
             binding.apply {
-                textAmount.text = delivery.offset.toString()
+                textAmount.text = delivery.page.toString()
                 textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
                 textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
                 viewDeliveryItem.setOnClickListener {

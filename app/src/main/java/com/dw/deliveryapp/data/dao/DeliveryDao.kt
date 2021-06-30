@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DeliveryDao {
-    @Query("SELECT * FROM deliveries ORDER BY `offset`")
+    @Query("SELECT * FROM deliveries ORDER BY `page`")
     fun getDeliveries(): PagingSource<Int, Delivery>
 
     @Query("SELECT * FROM deliveries WHERE id = :id")
