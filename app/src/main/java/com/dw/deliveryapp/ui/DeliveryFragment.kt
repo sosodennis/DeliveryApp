@@ -15,6 +15,7 @@ import com.dw.deliveryapp.ui.adapter.DeliveryAdapter
 import com.dw.deliveryapp.ui.adapter.DeliveryLoadStateAdapter
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
@@ -83,11 +84,14 @@ class DeliveryFragment : Fragment() {
                     println(it.id)
                     findNavController().navigate(DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment())
                 }
-                adapter = deliveryAdapter.withLoadStateHeaderAndFooter(
-                    header = DeliveryLoadStateAdapter(deliveryAdapter),
+                adapter = deliveryAdapter.withLoadStateFooter(
                     footer = DeliveryLoadStateAdapter(deliveryAdapter)
                 )
                 layoutManager = LinearLayoutManager(this@DeliveryFragment.context)
+            }
+            refreshLayoutDeliveries.setOnRefreshListener {
+                deliveryAdapter.refresh()
+                refreshLayoutDeliveries.isRefreshing = false
             }
         }
     }

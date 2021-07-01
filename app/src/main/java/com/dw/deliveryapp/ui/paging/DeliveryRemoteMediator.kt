@@ -10,11 +10,13 @@ import com.dw.deliveryapp.data.db.AppDatabase
 import com.dw.deliveryapp.data.mapper.DeliveryMapper
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.data.model.DeliveryRemoteKey
+import dagger.hilt.android.scopes.FragmentScoped
 import retrofit2.HttpException
 import java.io.IOException
 
 const val STARTING_PAGE_INDEX = 1
 
+@FragmentScoped
 @OptIn(ExperimentalPagingApi::class)
 class DeliveryRemoteMediator(
     private val appDatabase: AppDatabase,
@@ -22,10 +24,6 @@ class DeliveryRemoteMediator(
     private val deliveryMapper: DeliveryMapper
 ) :
     RemoteMediator<Int, Delivery>() {
-
-    override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
 
     override suspend fun load(
         loadType: LoadType,
@@ -74,8 +72,7 @@ class DeliveryRemoteMediator(
     ): Any {
         return when (loadType) {
             LoadType.REFRESH -> {
-                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
+                STARTING_PAGE_INDEX
             }
             LoadType.APPEND -> {
                 val remoteKeys = getLastRemoteKey(state)
@@ -86,15 +83,6 @@ class DeliveryRemoteMediator(
                 val remoteKeys = getFirstRemoteKey(state)
                 val prevKey = remoteKeys?.prevKey
                 return prevKey ?: MediatorResult.Success(endOfPaginationReached = false)
-            }
-        }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Delivery>)
-            : DeliveryRemoteKey? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                appDatabase.deliveryRemoteKeyDao().getDeliveryRemoteKeyById(id)
             }
         }
     }

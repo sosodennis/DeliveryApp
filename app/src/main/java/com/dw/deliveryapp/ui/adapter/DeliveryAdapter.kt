@@ -7,15 +7,21 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
-import dagger.hilt.android.scopes.ActivityScoped
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
+import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 
-@ActivityScoped
-class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
+@FragmentScoped
+class DeliveryAdapter @Inject constructor(
+    private val appResources: Resources,
+) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
     private var onItemClickListener: ((Delivery) -> Unit)? = null
@@ -25,18 +31,35 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     }
 
     inner class DeliveryViewHolder(
-        private val binding: ItemDeliveryBinding,
-        private val appResources: Resources
+        private val binding: ItemDeliveryBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(delivery: Delivery) {
             binding.apply {
-                textAmount.text = delivery.page.toString()
-                textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
-                textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
-                viewDeliveryItem.setOnClickListener {
-                    onItemClickListener?.let { it(delivery) }
+                viewDeliveryItem.apply {
+                    val shimmerDrawable = ShimmerDrawable().apply {
+                        setShimmer(
+                            Shimmer.AlphaHighlightBuilder()
+                                .setDuration(1500)
+                                .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+                                .setAutoStart(true)
+                                .build()
+                        )
+                    }
+                    Glide
+                        .with(this)
+                        .load(delivery.goodsPicture)
+                        .placeholder(shimmerDrawable)
+                        .error(shimmerDrawable)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(imageGoodsPicture)
+                    setOnClickListener {
+                        onItemClickListener?.let { it(delivery) }
+                    }
+
+                    textAmount.text = delivery.page.toString()
+                    textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
+                    textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
                 }
             }
         }
@@ -46,7 +69,7 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveryViewHolder {
         val binding =
             ItemDeliveryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DeliveryViewHolder(binding, appResources)
+        return DeliveryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: DeliveryViewHolder, position: Int) {

@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val PAGE_SIZE = 20
-private const val PREFETCH_DISTANCE = 5
+private const val PREFETCH_DISTANCE = 10
 
 @Singleton
 class DeliveryRepository @Inject constructor(
@@ -24,7 +24,6 @@ class DeliveryRepository @Inject constructor(
     fun getDeliveryPage() = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
-            initialLoadSize = PAGE_SIZE,
             maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
             prefetchDistance = PREFETCH_DISTANCE,
             enablePlaceholders = false
@@ -32,8 +31,4 @@ class DeliveryRepository @Inject constructor(
         remoteMediator = DeliveryRemoteMediator(appDatabase, deliveryService, deliveryMapper),
         pagingSourceFactory = { appDatabase.deliveryDao().getDeliveries() }).flow
 
-    suspend fun deleteDeliveryPageCache() {
-        appDatabase.deliveryDao().deleteAll()
-        appDatabase.deliveryRemoteKeyDao().deleteAll()
-    }
 }

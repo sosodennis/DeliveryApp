@@ -79,7 +79,13 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_logging_interceptor"
 
     //Paging
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    //Image Cache
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    implementation "com.facebook.shimmer:shimmer:$shimmer_version"
 
     //Test dependencies
     testImplementation 'junit:junit:4.+'

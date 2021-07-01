@@ -18,5 +18,4 @@ class DeliveryViewModel @Inject constructor(
 
     fun getDeliveryPage() = deliveryRepository.getDeliveryPage().cachedIn(viewModelScope)
 
-    suspend fun deleteDeliveryPageCache() = deliveryRepository.deleteDeliveryPageCache()
 }
