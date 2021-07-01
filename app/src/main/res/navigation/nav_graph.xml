@@ -9,7 +9,7 @@
         android:id="@+id/deliveryFragment"
         android:name="com.dw.deliveryapp.ui.DeliveryFragment"
         android:label="fragment_delivery"
-        tools:layout="@layout/fragment_delivery" >
+        tools:layout="@layout/fragment_delivery">
         <action
             android:id="@+id/action_deliveryFragment_to_deliveryDetailFragment"
             app:destination="@id/deliveryDetailFragment" />
@@ -18,5 +18,9 @@
         android:id="@+id/deliveryDetailFragment"
         android:name="com.dw.deliveryapp.ui.DeliveryDetailFragment"
         android:label="fragment_delivery_detail"
-        tools:layout="@layout/fragment_delivery_detail" />
+        tools:layout="@layout/fragment_delivery_detail">
+        <argument
+            android:name="delivery"
+            app:argType="com.dw.deliveryapp.data.model.Delivery" />
+    </fragment>
 </navigation>

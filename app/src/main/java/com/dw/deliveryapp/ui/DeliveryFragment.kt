@@ -41,18 +41,6 @@ class DeliveryFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,21 +65,34 @@ class DeliveryFragment : Fragment() {
         setupRecyclerView()
     }
 
+
     private fun setupRecyclerView() {
+
         binding.apply {
             recyclerView.apply {
                 deliveryAdapter.setOnItemClickListener {
-                    println(it.id)
-                    findNavController().navigate(DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment())
+                    findNavController().navigate(
+                        DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment(
+                            it
+                        )
+                    )
                 }
                 adapter = deliveryAdapter.withLoadStateFooter(
                     footer = DeliveryLoadStateAdapter(deliveryAdapter)
                 )
-                layoutManager = LinearLayoutManager(this@DeliveryFragment.context)
+
+                layoutManager = object : LinearLayoutManager(this@DeliveryFragment.context) {
+                    override fun canScrollVertically(): Boolean {
+                        //TODO: Handle refreshing disable scroll?
+                        return true
+                    }
+                }
+
             }
             refreshLayoutDeliveries.setOnRefreshListener {
                 deliveryAdapter.refresh()
                 refreshLayoutDeliveries.isRefreshing = false
+
             }
         }
     }
@@ -104,23 +105,5 @@ class DeliveryFragment : Fragment() {
         }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DeliveryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DeliveryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

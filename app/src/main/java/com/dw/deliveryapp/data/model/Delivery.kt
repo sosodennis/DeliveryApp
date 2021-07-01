@@ -1,8 +1,12 @@
 package com.dw.deliveryapp.data.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 @Entity(tableName = "deliveries")
 data class Delivery(
     @PrimaryKey val id: String,
@@ -18,6 +22,4 @@ data class Delivery(
     val senderEmail: String,
     val page: Int = 0
     //TODO: add other fields
-) {
-    override fun toString() = id
-}
+) : Parcelable
