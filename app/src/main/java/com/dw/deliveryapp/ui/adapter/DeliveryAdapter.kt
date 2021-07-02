@@ -4,6 +4,7 @@ package com.dw.deliveryapp.ui.adapter
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +25,9 @@ class DeliveryAdapter @Inject constructor(
 ) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
-    private var onItemClickListener: ((Delivery) -> Unit)? = null
+    private var onItemClickListener: ((Delivery, AppCompatImageView) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Delivery) -> Unit) {
+    fun setOnItemClickListener(listener: (Delivery, AppCompatImageView) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -54,10 +55,10 @@ class DeliveryAdapter @Inject constructor(
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageGoodsPicture)
                     setOnClickListener {
-                        onItemClickListener?.let { it(delivery) }
+                        onItemClickListener?.let { it(delivery, imageGoodsPicture) }
                     }
 
-                    textAmount.text = delivery.page.toString()
+                    textAmount.text = delivery.deliveryFee
                     textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
                     textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
                 }

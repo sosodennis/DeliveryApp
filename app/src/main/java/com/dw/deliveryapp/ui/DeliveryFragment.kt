@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.ui.adapter.DeliveryAdapter
@@ -70,13 +71,17 @@ class DeliveryFragment : Fragment() {
 
         binding.apply {
             recyclerView.apply {
-                deliveryAdapter.setOnItemClickListener {
-                    findNavController().navigate(
+                deliveryAdapter.setOnItemClickListener { delivery, imageView ->
+                    val action =
                         DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment(
-                            it
+                            delivery
                         )
+                    val extra = FragmentNavigatorExtras(imageView to "image_goods_picture")
+                    findNavController().navigate(
+                        action, extra
                     )
                 }
+
                 adapter = deliveryAdapter.withLoadStateFooter(
                     footer = DeliveryLoadStateAdapter(deliveryAdapter)
                 )
