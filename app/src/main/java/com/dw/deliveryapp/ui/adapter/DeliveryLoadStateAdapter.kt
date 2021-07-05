@@ -7,9 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dw.deliveryapp.databinding.ItemDeliveryLoadStateBinding
-import dagger.hilt.android.scopes.FragmentScoped
 
-@FragmentScoped
 class DeliveryLoadStateAdapter(
     private val adapter: DeliveryAdapter
 ) : LoadStateAdapter<DeliveryLoadStateAdapter.DeliveryLoadStateItemViewHolder>() {
@@ -33,7 +31,6 @@ class DeliveryLoadStateAdapter(
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState)
             : DeliveryLoadStateItemViewHolder {

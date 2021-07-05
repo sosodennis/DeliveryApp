@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
@@ -32,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class DeliveryFragment : Fragment() {
+class DeliveryFragment : BaseFragment() {
     @Inject
     lateinit var deliveryAdapter: DeliveryAdapter
 
@@ -53,6 +53,7 @@ class DeliveryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        cleanUp()
         _binding = null
     }
 
@@ -68,46 +69,49 @@ class DeliveryFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-
         binding.apply {
+            postponeEnterTransition()
             recyclerView.apply {
                 deliveryAdapter.setOnItemClickListener { delivery, imageView ->
                     val action =
                         DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment(
                             delivery
                         )
-                    val extra = FragmentNavigatorExtras(imageView to "image_goods_picture")
-                    findNavController().navigate(
-                        action, extra
-                    )
+                    val extra = FragmentNavigatorExtras(imageView to delivery.id)
+                    navigateSafe(action, extra)
                 }
 
                 adapter = deliveryAdapter.withLoadStateFooter(
                     footer = DeliveryLoadStateAdapter(deliveryAdapter)
                 )
 
-                layoutManager = object : LinearLayoutManager(this@DeliveryFragment.context) {
+                layoutManager = object : LinearLayoutManager(requireContext()) {
                     override fun canScrollVertically(): Boolean {
                         //TODO: Handle refreshing disable scroll?
                         return true
                     }
                 }
-
+                doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
             }
             refreshLayoutDeliveries.setOnRefreshListener {
                 deliveryAdapter.refresh()
                 refreshLayoutDeliveries.isRefreshing = false
-
             }
         }
     }
 
     private fun observeData() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             viewModel.getDeliveryPage().collectLatest {
                 deliveryAdapter.submitData(it)
             }
         }
+    }
+
+    private fun cleanUp() {
+        binding.recyclerView.adapter = null
     }
 
 

@@ -13,16 +13,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
-import com.facebook.shimmer.Shimmer
-import com.facebook.shimmer.ShimmerDrawable
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 
 @FragmentScoped
-class DeliveryAdapter @Inject constructor(
-    private val appResources: Resources,
-) :
+class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
     private var onItemClickListener: ((Delivery, AppCompatImageView) -> Unit)? = null
@@ -35,23 +31,15 @@ class DeliveryAdapter @Inject constructor(
         private val binding: ItemDeliveryBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(delivery: Delivery) {
             binding.apply {
                 viewDeliveryItem.apply {
-                    val shimmerDrawable = ShimmerDrawable().apply {
-                        setShimmer(
-                            Shimmer.AlphaHighlightBuilder()
-                                .setDuration(1500)
-                                .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
-                                .setAutoStart(true)
-                                .build()
-                        )
-                    }
+                    imageGoodsPicture.transitionName = delivery.id
                     Glide
                         .with(this)
                         .load(delivery.goodsPicture)
-                        .placeholder(shimmerDrawable)
-                        .error(shimmerDrawable)
+                        .placeholder(R.drawable.placeholder_image)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageGoodsPicture)
                     setOnClickListener {

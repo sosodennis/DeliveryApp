@@ -10,13 +10,12 @@ import com.dw.deliveryapp.data.db.AppDatabase
 import com.dw.deliveryapp.data.mapper.DeliveryMapper
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.data.model.DeliveryRemoteKey
-import dagger.hilt.android.scopes.FragmentScoped
 import retrofit2.HttpException
 import java.io.IOException
 
 const val STARTING_PAGE_INDEX = 1
 
-@FragmentScoped
+
 @OptIn(ExperimentalPagingApi::class)
 class DeliveryRemoteMediator(
     private val appDatabase: AppDatabase,
