@@ -41,6 +41,9 @@ buildscript {
 
         //Shimmer (Loading)
         shimmer_version = "0.5.0"
+
+        //Memory Leak Checking
+        leakcanary_version = "2.7"
     }
 
     repositories {
