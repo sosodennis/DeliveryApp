@@ -4,7 +4,6 @@ package com.dw.deliveryapp.ui.adapter
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
+import com.dw.deliveryapp.ui.const.TransitionName
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
@@ -21,9 +21,9 @@ import javax.inject.Inject
 class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
-    private var onItemClickListener: ((Delivery, AppCompatImageView) -> Unit)? = null
+    private var onItemClickListener: ((Delivery, ItemDeliveryBinding) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Delivery, AppCompatImageView) -> Unit) {
+    fun setOnItemClickListener(listener: (Delivery, ItemDeliveryBinding) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -35,20 +35,30 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
         fun bind(delivery: Delivery) {
             binding.apply {
                 viewDeliveryItem.apply {
-                    imageGoodsPicture.transitionName = delivery.id
+                    imageGoodsPicture.transitionName =
+                        TransitionName.IMAGE_GOODS_PICTURE + delivery.id
                     Glide
                         .with(this)
                         .load(delivery.goodsPicture)
                         .placeholder(R.drawable.placeholder_image)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageGoodsPicture)
-                    setOnClickListener {
-                        onItemClickListener?.let { it(delivery, imageGoodsPicture) }
-                    }
 
                     textAmount.text = delivery.deliveryFee
+
+                    textFrom.transitionName = TransitionName.TEXT_FROM + delivery.id
                     textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
+
+                    textTo.transitionName = TransitionName.TEXT_TO + delivery.id
                     textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
+
+                    setOnClickListener {
+                        onItemClickListener?.let {
+                            it(
+                                delivery, binding
+                            )
+                        }
+                    }
                 }
             }
         }

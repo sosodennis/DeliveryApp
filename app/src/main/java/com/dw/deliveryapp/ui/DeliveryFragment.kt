@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.ui.adapter.DeliveryAdapter
 import com.dw.deliveryapp.ui.adapter.DeliveryLoadStateAdapter
+import com.dw.deliveryapp.ui.const.TransitionName
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -72,12 +73,17 @@ class DeliveryFragment : BaseFragment() {
         binding.apply {
             postponeEnterTransition()
             recyclerView.apply {
-                deliveryAdapter.setOnItemClickListener { delivery, imageView ->
+                deliveryAdapter.setOnItemClickListener { delivery, binding ->
                     val action =
                         DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment(
                             delivery
                         )
-                    val extra = FragmentNavigatorExtras(imageView to delivery.id)
+                    val extra =
+                        FragmentNavigatorExtras(
+                            binding.imageGoodsPicture to TransitionName.IMAGE_GOODS_PICTURE + delivery.id,
+                            binding.textFrom to TransitionName.TEXT_FROM + delivery.id,
+                            binding.textTo to TransitionName.TEXT_TO + delivery.id
+                        )
                     navigateSafe(action, extra)
                 }
 

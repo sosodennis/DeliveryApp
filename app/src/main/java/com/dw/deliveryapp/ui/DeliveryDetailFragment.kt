@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.databinding.FragmentDeliveryDetailBinding
+import com.dw.deliveryapp.ui.const.TransitionName
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -57,8 +58,7 @@ class DeliveryDetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-
-            textRemarks.text = args.delivery.remarks
+            imageGoodsPicture.transitionName = TransitionName.IMAGE_GOODS_PICTURE + args.delivery.id
             viewDeliveryDetail.apply {
                 Glide
                     .with(this)
@@ -67,9 +67,14 @@ class DeliveryDetailFragment : BaseFragment() {
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageGoodsPicture)
             }
-            imageGoodsPicture.transitionName = args.delivery.id
+
+            textFrom.transitionName = TransitionName.TEXT_FROM + args.delivery.id
             textFrom.text = appResources.getString(R.string.label_from, args.delivery.routeStart)
+
+            textTo.transitionName = TransitionName.TEXT_TO + args.delivery.id
             textTo.text = appResources.getString(R.string.label_to, args.delivery.routeEnd)
+
+            textRemarks.text = args.delivery.remarks
 
         }
     }

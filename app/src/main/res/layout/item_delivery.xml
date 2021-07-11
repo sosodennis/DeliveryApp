@@ -35,7 +35,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="3dp"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
@@ -47,34 +47,27 @@
             android:id="@+id/view_delivery_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:padding="5dp">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_inner"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.35" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_goods_picture"
-                android:layout_width="0dp"
+                android:layout_width="120dp"
                 android:layout_height="0dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:0.75"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/guideline_inner"
                 tools:src="@mipmap/ic_launcher" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:layout_constraintBottom_toTopOf="@id/text_to"
                 app:layout_constraintStart_toEndOf="@id/image_goods_picture"
                 app:layout_constraintTop_toTopOf="parent"
@@ -85,8 +78,8 @@
                 android:id="@+id/text_to"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:layout_constraintBottom_toTopOf="@id/text_amount"
                 app:layout_constraintStart_toStartOf="@id/text_from"
                 app:layout_constraintTop_toBottomOf="@id/text_from"
@@ -94,10 +87,10 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_amount"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_to"
