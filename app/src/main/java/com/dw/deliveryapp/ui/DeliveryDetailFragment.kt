@@ -3,9 +3,7 @@ package com.dw.deliveryapp.ui
 import android.content.res.Resources
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -16,6 +14,7 @@ import com.dw.deliveryapp.ui.const.TransitionName
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,5 +76,22 @@ class DeliveryDetailFragment : BaseFragment() {
             textRemarks.text = args.delivery.remarks
 
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_fragment_delivery_detail, menu)
+        //TODO: Find item and set the latest favorite value
+        val item = menu.findItem(R.id.action_favorite)
+        val randomBool = Random.nextBoolean()
+        if (randomBool) item?.setIcon(R.drawable.ic_favorite_24) else item?.setIcon(R.drawable.ic_favorite_border_24)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_favorite -> {
+                //TODO: Handle favorite status in viewmodel
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

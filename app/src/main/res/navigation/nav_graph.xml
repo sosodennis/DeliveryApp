@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/deliveryFragment"
         android:name="com.dw.deliveryapp.ui.DeliveryFragment"
-        android:label="fragment_delivery"
+        android:label="Home"
         tools:layout="@layout/fragment_delivery">
         <action
             android:id="@+id/action_deliveryFragment_to_deliveryDetailFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/deliveryDetailFragment"
         android:name="com.dw.deliveryapp.ui.DeliveryDetailFragment"
-        android:label="fragment_delivery_detail"
+        android:label="Detail"
         tools:layout="@layout/fragment_delivery_detail">
         <argument
             android:name="delivery"
