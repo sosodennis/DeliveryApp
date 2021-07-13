@@ -8,12 +8,11 @@ import com.dw.deliveryapp.data.db.AppDatabase
 import com.dw.deliveryapp.data.mapper.DeliveryMapper
 import com.dw.deliveryapp.ui.paging.DeliveryRemoteMediator
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private const val PAGE_SIZE = 20
 private const val PREFETCH_DISTANCE = 10
 
-@Singleton
+
 class DeliveryRepository @Inject constructor(
     private val appDatabase: AppDatabase,
     private val deliveryService: DeliveryService,

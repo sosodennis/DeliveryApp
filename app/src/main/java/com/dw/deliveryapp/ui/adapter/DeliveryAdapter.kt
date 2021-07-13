@@ -3,6 +3,7 @@ package com.dw.deliveryapp.ui.adapter
 
 import android.content.res.Resources
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -43,6 +44,11 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
                         .placeholder(R.drawable.placeholder_image)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageGoodsPicture)
+
+                    delivery.fav?.let {
+                        if (it) imageFav.visibility = View.VISIBLE
+                        else imageFav.visibility = View.INVISIBLE
+                    }
 
                     textAmount.text = delivery.deliveryFee
 

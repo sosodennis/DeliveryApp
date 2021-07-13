@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.databinding.FragmentDeliveryDetailBinding
 import com.dw.deliveryapp.ui.const.TransitionName
+import com.dw.deliveryapp.viewmodels.DeliveryDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +35,8 @@ class DeliveryDetailFragment : BaseFragment() {
     private var _binding: FragmentDeliveryDetailBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: DeliveryDetailViewModel by viewModels()
+
     private val args by navArgs<DeliveryDetailFragmentArgs>()
 
     @Inject
@@ -45,7 +51,7 @@ class DeliveryDetailFragment : BaseFragment() {
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementEnterTransition = transition
         sharedElementReturnTransition = transition
-        postponeEnterTransition(250, TimeUnit.MILLISECONDS)
+        postponeEnterTransition(100, TimeUnit.MILLISECONDS)
         return binding.root
     }
 
@@ -78,18 +84,37 @@ class DeliveryDetailFragment : BaseFragment() {
         }
     }
 
+    //FIXME should place in viewmodel?
+    var isFav = false
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_fragment_delivery_detail, menu)
         //TODO: Find item and set the latest favorite value
         val item = menu.findItem(R.id.action_favorite)
-        val randomBool = Random.nextBoolean()
-        if (randomBool) item?.setIcon(R.drawable.ic_favorite_24) else item?.setIcon(R.drawable.ic_favorite_border_24)
+        lifecycleScope.launch {
+            viewModel.isFavouriteFlow(args.delivery.id).collectLatest {
+                if (it != null) {
+                    isFav = true
+                    item?.setIcon(R.drawable.ic_favorite_24)
+                } else {
+                    isFav = false
+                    item?.setIcon(R.drawable.ic_favorite_border_24)
+                }
+            }
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_favorite -> {
                 //TODO: Handle favorite status in viewmodel
+                if (isFav) {
+                    viewModel.unfavorite(args.delivery.id)
+                } else {
+                    viewModel.favorite(args.delivery.id)
+                }
+
             }
         }
         return super.onOptionsItemSelected(item)
