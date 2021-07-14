@@ -15,7 +15,6 @@ import com.dw.deliveryapp.ui.const.TransitionName
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -77,14 +76,12 @@ class DeliveryDetailFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_fragment_delivery_detail, menu)
         //TODO: Find item and set the latest favorite value
         val item = menu.findItem(R.id.action_toggle_favorite)
-        lifecycleScope.launch {
-            viewModel.favouriteState(args.delivery.id).collectLatest { isFav ->
-                if (isFav) {
-                    item?.setIcon(R.drawable.ic_favorite_24)
-                } else {
-                    item?.setIcon(R.drawable.ic_favorite_border_24)
-                }
+        lifecycleScope.launchWhenCreated {
+            item?.apply {
+                initFavStatus(item)
+                observeFavStatus(item)
             }
+
         }
 
     }
@@ -96,5 +93,22 @@ class DeliveryDetailFragment : BaseFragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initFavStatus(menuItem: MenuItem) {
+        args.delivery.fav?.let {
+            if (it) menuItem.setIcon(R.drawable.ic_favorite_24)
+            else menuItem.setIcon(R.drawable.ic_favorite_border_24)
+        }
+    }
+
+    private suspend fun observeFavStatus(menuItem: MenuItem) {
+        viewModel.favouriteState(args.delivery.id).collectLatest { isFav ->
+            if (isFav) {
+                menuItem.setIcon(R.drawable.ic_favorite_24)
+            } else {
+                menuItem.setIcon(R.drawable.ic_favorite_border_24)
+            }
+        }
     }
 }

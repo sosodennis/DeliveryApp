@@ -14,11 +14,9 @@ import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
 import com.dw.deliveryapp.ui.const.TransitionName
-import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 
-@FragmentScoped
 class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
@@ -77,10 +75,8 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     }
 
     override fun onBindViewHolder(holder: DeliveryViewHolder, position: Int) {
-        val currentItem = getItem(position)
-        if (currentItem != null) {
-            holder.bind(currentItem)
-        }
+        val currentItem = getItem(position) ?: return
+        holder.bind(currentItem)
     }
 
     class DeliveryComparator : DiffUtil.ItemCallback<Delivery>() {
@@ -89,7 +85,10 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
         }
 
         override fun areContentsTheSame(oldItem: Delivery, newItem: Delivery): Boolean {
-            return oldItem == newItem
+            /*
+             * Currently only fav field will be edited or updated.
+             */
+            return oldItem.fav == newItem.fav
         }
     }
 }

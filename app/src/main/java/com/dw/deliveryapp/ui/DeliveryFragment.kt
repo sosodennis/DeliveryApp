@@ -46,9 +46,10 @@ class DeliveryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeData()
+        lifecycleScope.launchWhenCreated {
+            observeData()
+        }
     }
-
 
     private fun setupRecyclerView() {
         binding.apply {
@@ -90,18 +91,9 @@ class DeliveryFragment : BaseFragment() {
         }
     }
 
-    private fun observeData() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.deliveryPagingDataStates.observe(viewLifecycleOwner, { deliveryPagingData ->
-                deliveryAdapter.submitData(viewLifecycleOwner.lifecycle, deliveryPagingData)
-            })
-            viewModel.favoriteStateEvent.collectLatest { event ->
-                when (event) {
-                    is DeliveryViewModel.FavoriteStateEvent.Updated -> {
-                        viewModel.updated(event.id, event.isFav)
-                    }
-                }
-            }
+    private suspend fun observeData() {
+        viewModel.getDeliveryPage().collectLatest {
+            deliveryAdapter.submitData(it)
         }
     }
 
