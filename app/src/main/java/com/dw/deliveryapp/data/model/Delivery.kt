@@ -2,7 +2,6 @@ package com.dw.deliveryapp.data.model
 
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -25,7 +24,6 @@ data class Delivery(
     val page: Int = 0,
     //TODO: add other fields
 ) : Parcelable {
-    @Ignore
     @IgnoredOnParcel
     var fav: Boolean? = false
 }

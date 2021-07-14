@@ -1,5 +1,6 @@
 package com.dw.deliveryapp.data.repository
 
+import androidx.room.withTransaction
 import com.dw.deliveryapp.data.db.AppDatabase
 import com.dw.deliveryapp.data.model.FavoriteDelivery
 import kotlinx.coroutines.flow.Flow
@@ -10,19 +11,22 @@ class FavoriteDeliveryRepository @Inject constructor(
     private val appDatabase: AppDatabase
 ) {
 
-    fun isFavoriteFlow(id: String): Flow<FavoriteDelivery?> {
-        return appDatabase.favoriteDeliveryDao().getFavorDeliveryByIdFlow(id)
+    fun favoriteStateFlow(id: String): Flow<Boolean> {
+        return appDatabase.favoriteDeliveryDao().getFavorStateByIdFlow(id)
     }
 
-    fun isFavorite(id: String): FavoriteDelivery? {
-        return appDatabase.favoriteDeliveryDao().getFavorDeliveryById(id)
+    fun isFavorite(id: String): Boolean {
+        return appDatabase.favoriteDeliveryDao().isIdExist(id)
     }
 
-    suspend fun favorite(id: String) {
-        appDatabase.favoriteDeliveryDao().insert(FavoriteDelivery(id))
-    }
-
-    suspend fun unfavorite(id: String) {
-        appDatabase.favoriteDeliveryDao().delete(id)
+    suspend fun setFavoriteState(id: String, isFav: Boolean) {
+        appDatabase.withTransaction {
+            if (isFav) {
+                appDatabase.favoriteDeliveryDao().insert(FavoriteDelivery(id))
+            } else {
+                appDatabase.favoriteDeliveryDao().delete(id)
+            }
+            appDatabase.deliveryDao().setFavorite(id, isFav)
+        }
     }
 }

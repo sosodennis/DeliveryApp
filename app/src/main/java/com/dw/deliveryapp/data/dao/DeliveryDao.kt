@@ -22,4 +22,7 @@ interface DeliveryDao {
 
     @Query("DELETE FROM deliveries")
     suspend fun deleteAll()
+
+    @Query("UPDATE deliveries SET fav = :isFav WHERE id = :id")
+    suspend fun setFavorite(id: String, isFav: Boolean)
 }

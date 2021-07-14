@@ -22,9 +22,9 @@ import javax.inject.Inject
 class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
-    private var onItemClickListener: ((Delivery, ItemDeliveryBinding) -> Unit)? = null
+    private var onItemClickListener: ((Int, Delivery, ItemDeliveryBinding) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Delivery, ItemDeliveryBinding) -> Unit) {
+    fun setOnItemClickListener(listener: (Int, Delivery, ItemDeliveryBinding) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -57,11 +57,10 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
 
                     textTo.transitionName = TransitionName.TEXT_TO + delivery.id
                     textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
-
                     setOnClickListener {
                         onItemClickListener?.let {
                             it(
-                                delivery, binding
+                                absoluteAdapterPosition, delivery, binding
                             )
                         }
                     }

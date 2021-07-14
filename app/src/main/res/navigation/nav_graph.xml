@@ -20,6 +20,9 @@
         android:label="Detail"
         tools:layout="@layout/fragment_delivery_detail">
         <argument
+            android:name="index"
+            app:argType="integer" />
+        <argument
             android:name="delivery"
             app:argType="com.dw.deliveryapp.data.model.Delivery" />
     </fragment>

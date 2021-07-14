@@ -52,6 +52,7 @@ class DeliveryRemoteMediator(
                 val nextKey = if (isEndOfList) null else page + 1
 
                 val keys = deliveries.map {
+                    it.fav = appDatabase.favoriteDeliveryDao().isIdExist(it.id)
                     DeliveryRemoteKey(it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 appDatabase.deliveryRemoteKeyDao().insertAll(keys)
