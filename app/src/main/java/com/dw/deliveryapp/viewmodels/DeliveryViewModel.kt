@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +29,9 @@ class DeliveryViewModel @Inject constructor(
     fun favouriteState(id: String) =
         favoriteDeliveryRepository.favoriteStateFlow(id).flowOn(Dispatchers.IO)
 
-    fun getDeliveryPage() =
+    suspend fun getDeliveryPage() = withContext(Dispatchers.IO) {
         deliveryRepository.getDeliveryPage().cachedIn(viewModelScope)
+    }
 
 
     fun toggleFavorite(id: String) {

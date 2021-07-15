@@ -1,14 +1,15 @@
 package com.dw.deliveryapp.ui
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dw.deliveryapp.R
 import com.dw.deliveryapp.databinding.FragmentDeliveryBinding
 import com.dw.deliveryapp.ui.adapter.DeliveryAdapter
 import com.dw.deliveryapp.ui.adapter.DeliveryLoadStateAdapter
@@ -16,6 +17,7 @@ import com.dw.deliveryapp.ui.const.TransitionName
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,6 +30,12 @@ class DeliveryFragment : BaseFragment() {
     private var _binding: FragmentDeliveryBinding? = null
     private val binding get() = _binding!!
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        lifecycleScope.launchWhenCreated {
+            observeData()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +54,34 @@ class DeliveryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        lifecycleScope.launchWhenCreated {
-            observeData()
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            deliveryAdapter.loadStateFlow.collectLatest { loadStates ->
+                if (loadStates.refresh is LoadState.NotLoading
+                    || loadStates.refresh is LoadState.Error
+                ) {
+                    binding.refreshLayoutDeliveries.isRefreshing = false
+                } else if (loadStates.refresh is LoadState.Loading) {
+                    binding.refreshLayoutDeliveries.isRefreshing = true
+                }
+            }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_fragment_delivery, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_refresh -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    if (!binding.refreshLayoutDeliveries.isRefreshing) {
+                        deliveryAdapter.refresh()
+                    }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupRecyclerView() {
@@ -86,7 +119,6 @@ class DeliveryFragment : BaseFragment() {
             }
             refreshLayoutDeliveries.setOnRefreshListener {
                 deliveryAdapter.refresh()
-                refreshLayoutDeliveries.isRefreshing = false
             }
         }
     }

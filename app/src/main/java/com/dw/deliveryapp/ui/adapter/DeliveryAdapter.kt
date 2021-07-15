@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.databinding.ItemDeliveryBinding
 import com.dw.deliveryapp.ui.const.TransitionName
+import com.dw.deliveryapp.util.DateTimeFormat
+import com.dw.deliveryapp.util.DateTimeFormatUtil
+import java.util.*
 import javax.inject.Inject
 
 
@@ -39,7 +43,20 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
                     Glide
                         .with(this)
                         .load(delivery.goodsPicture)
+                        /*
+                         * Use signature to invalidate image cache.
+                         * This case simply invalidate each hour.
+                         */
+                        .signature(
+                            ObjectKey(
+                                DateTimeFormatUtil.formatStr(
+                                    DateTimeFormat.FORMAT_YYYY_MM_DD_HH,
+                                    Date()
+                                )
+                            )
+                        )
                         .placeholder(R.drawable.placeholder_image)
+                        .error(R.drawable.placeholder_error_image)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageGoodsPicture)
 
@@ -66,7 +83,6 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveryViewHolder {
         val binding =

@@ -20,20 +20,22 @@
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyle"
-        tools:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:theme="@style/ProgressbarPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/button_retry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_error_msg" />
+        app:layout_constraintTop_toBottomOf="@+id/text_error_msg"
+        tools:visibility="gone" />
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_retry"
-        style="@style/Widget.AppCompat.Button.Colored"
+        android:backgroundTint="@color/primary_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/retry"
+        android:text="@string/hint_retry"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

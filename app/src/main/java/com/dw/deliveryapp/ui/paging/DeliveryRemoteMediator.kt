@@ -10,6 +10,7 @@ import com.dw.deliveryapp.data.db.AppDatabase
 import com.dw.deliveryapp.data.mapper.DeliveryMapper
 import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.data.model.DeliveryRemoteKey
+import com.dw.deliveryapp.util.AmountUtils
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -53,6 +54,8 @@ class DeliveryRemoteMediator(
 
                 val keys = deliveries.map {
                     it.fav = appDatabase.favoriteDeliveryDao().isIdExist(it.id)
+                    it.displayPrice =
+                        AmountUtils.format(it.deliveryFeeInDouble() + it.surchargeInDouble())
                     DeliveryRemoteKey(it.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 appDatabase.deliveryRemoteKeyDao().insertAll(keys)

@@ -4,18 +4,22 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.*
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.dw.deliveryapp.R
 import com.dw.deliveryapp.databinding.FragmentDeliveryDetailBinding
 import com.dw.deliveryapp.ui.const.TransitionName
+import com.dw.deliveryapp.util.DateTimeFormat
+import com.dw.deliveryapp.util.DateTimeFormatUtil
 import com.dw.deliveryapp.viewmodels.DeliveryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import java.util.concurrent.TimeUnit
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,7 +43,7 @@ class DeliveryDetailFragment : BaseFragment() {
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementEnterTransition = transition
         sharedElementReturnTransition = transition
-        postponeEnterTransition(100, TimeUnit.MILLISECONDS)
+        postponeEnterTransition()
         return binding.root
     }
 
@@ -53,12 +57,22 @@ class DeliveryDetailFragment : BaseFragment() {
         binding.apply {
             imageGoodsPicture.transitionName = TransitionName.IMAGE_GOODS_PICTURE + args.delivery.id
             viewDeliveryDetail.apply {
-                Glide
-                    .with(this)
+                Glide.with(this)
                     .load(args.delivery.goodsPicture)
-                    .placeholder(R.drawable.placeholder_image)
+                    .signature(
+                        ObjectKey(
+                            DateTimeFormatUtil.formatStr(
+                                DateTimeFormat.FORMAT_YYYY_MM_DD_HH,
+                                Date()
+                            )
+                        )
+                    )
+                    .error(R.drawable.placeholder_error_image)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageGoodsPicture)
+                doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
             }
 
             textFrom.transitionName = TransitionName.TEXT_FROM + args.delivery.id
@@ -74,16 +88,13 @@ class DeliveryDetailFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_fragment_delivery_detail, menu)
-        //TODO: Find item and set the latest favorite value
-        val item = menu.findItem(R.id.action_toggle_favorite)
+        val menuItemFav = menu.findItem(R.id.action_toggle_favorite)
         lifecycleScope.launchWhenCreated {
-            item?.apply {
-                initFavStatus(item)
-                observeFavStatus(item)
+            menuItemFav?.apply {
+                initFavStatus(menuItemFav)
+                observeFavStatus(menuItemFav)
             }
-
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

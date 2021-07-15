@@ -5,4 +5,7 @@
     <string name="label_goods_to_deliver">Goods To Deliver</string>
     <string name="label_delivery_info">Delivery Information</string>
     <string name="label_others">Others</string>
+    <string name="menu_title_favorite">favorite</string>
+    <string name="menu_title_refresh">refresh</string>
+    <string name="hint_retry">Retry</string>
 </resources>

@@ -25,7 +25,7 @@ class DeliveryRepository @Inject constructor(
             pageSize = PAGE_SIZE,
             maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
             prefetchDistance = PREFETCH_DISTANCE,
-            enablePlaceholders = false
+            enablePlaceholders = true
         ),
         remoteMediator = DeliveryRemoteMediator(appDatabase, deliveryService, deliveryMapper),
         pagingSourceFactory = { appDatabase.deliveryDao().getDeliveries() }).flow
