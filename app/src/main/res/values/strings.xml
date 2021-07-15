@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DeliveryApp</string>
-    <string name="label_from">From: %s</string>
-    <string name="label_to">To: %s</string>
+    <string name="label_from">From</string>
+    <string name="label_to">To</string>
     <string name="label_goods_to_deliver">Goods To Deliver</string>
     <string name="label_delivery_info">Delivery Information</string>
     <string name="label_others">Others</string>

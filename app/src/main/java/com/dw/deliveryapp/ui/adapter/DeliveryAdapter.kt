@@ -78,11 +78,13 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
 
                     textAmount.text = delivery.displayPrice
 
+                    textLabelFrom.text = appResources.getString(R.string.label_from)
                     textFrom.transitionName = TransitionName.TEXT_FROM + delivery.id
-                    textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)
+                    textFrom.text = delivery.routeStart
 
+                    textLabelTo.text = appResources.getString(R.string.label_to)
                     textTo.transitionName = TransitionName.TEXT_TO + delivery.id
-                    textTo.text = appResources.getString(R.string.label_to, delivery.routeEnd)
+                    textTo.text = delivery.routeEnd
                     setOnClickListener {
                         onItemClickListener?.let {
                             it(

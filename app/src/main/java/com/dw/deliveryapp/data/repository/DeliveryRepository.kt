@@ -18,7 +18,6 @@ class DeliveryRepository @Inject constructor(
     private val deliveryService: DeliveryService,
     private val deliveryMapper: DeliveryMapper
 ) {
-
     @OptIn(ExperimentalPagingApi::class)
     fun getDeliveryPage() = Pager(
         config = PagingConfig(
@@ -29,5 +28,4 @@ class DeliveryRepository @Inject constructor(
         ),
         remoteMediator = DeliveryRemoteMediator(appDatabase, deliveryService, deliveryMapper),
         pagingSourceFactory = { appDatabase.deliveryDao().getDeliveries() }).flow
-
 }
