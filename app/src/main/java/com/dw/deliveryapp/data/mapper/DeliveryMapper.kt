@@ -12,8 +12,7 @@ class DeliveryMapper : Mapper<Delivery, DeliveryDto> {
         entity.deliveryFee,
         entity.surcharge,
         DeliveryDto.Route(entity.routeStart, entity.routeEnd),
-        DeliveryDto.Sender(entity.senderPhone, entity.senderName, entity.senderEmail),
-        entity.page
+        DeliveryDto.Sender(entity.senderPhone, entity.senderName, entity.senderEmail)
     )
 
     override fun toEntity(domain: DeliveryDto) = Delivery(
@@ -27,8 +26,7 @@ class DeliveryMapper : Mapper<Delivery, DeliveryDto> {
         domain.route.end,
         domain.sender.phone,
         domain.sender.name,
-        domain.sender.email,
-        domain.page
+        domain.sender.email
     )
 
     override fun fromEntityList(initial: List<Delivery>): List<DeliveryDto> {

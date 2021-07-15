@@ -21,9 +21,7 @@ data class Delivery(
     val routeEnd: String,
     val senderPhone: String,
     val senderName: String,
-    val senderEmail: String,
-    val page: Int = 0,
-    //TODO: add other fields
+    val senderEmail: String
 ) : Parcelable {
     @IgnoredOnParcel
     var fav: Boolean? = false

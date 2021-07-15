@@ -9,7 +9,6 @@ data class DeliveryDto(
     val surcharge: String,
     val route: Route,
     val sender: Sender,
-    var page: Int
 ) {
     data class Route(
         val start: String,

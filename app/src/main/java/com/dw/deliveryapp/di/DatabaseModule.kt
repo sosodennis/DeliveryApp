@@ -1,7 +1,6 @@
 package com.dw.deliveryapp.di
 
 import android.app.Application
-import com.dw.deliveryapp.data.dao.DeliveryDao
 import com.dw.deliveryapp.data.db.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -17,11 +16,5 @@ object DatabaseModule {
     @Singleton
     fun provideAppDatabase(application: Application): AppDatabase {
         return AppDatabase.getInstance(application)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDeliveryDao(appDatabase: AppDatabase): DeliveryDao {
-        return appDatabase.deliveryDao()
     }
 }

@@ -41,7 +41,6 @@ class DeliveryRemoteMediator(
         try {
             val offset = (page - 1) * state.config.pageSize
             val deliveriesDto = deliveryService.getDeliveries(offset, state.config.pageSize)
-            deliveriesDto.map { it.page = page }
             val deliveries = deliveryMapper.toEntityList(deliveriesDto)
             val isEndOfList = deliveries.isEmpty()
             appDatabase.withTransaction {

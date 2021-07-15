@@ -10,7 +10,6 @@ import javax.inject.Inject
 class FavoriteDeliveryRepository @Inject constructor(
     private val appDatabase: AppDatabase
 ) {
-
     fun favoriteStateFlow(id: String): Flow<Boolean> {
         return appDatabase.favoriteDeliveryDao().getFavorStateByIdFlow(id)
     }
