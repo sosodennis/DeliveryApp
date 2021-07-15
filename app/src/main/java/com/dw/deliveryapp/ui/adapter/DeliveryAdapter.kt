@@ -38,6 +38,17 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
         fun bind(delivery: Delivery) {
             binding.apply {
                 viewDeliveryItem.apply {
+//                    Use Shimmer effect can provide better experience to user?
+//                    val shimmerDrawable = ShimmerDrawable().apply {
+//                        setShimmer(
+//                            Shimmer.AlphaHighlightBuilder()
+//                                .setBaseAlpha(0.8f)
+//                                .setDuration(1500)
+//                                .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+//                                .setAutoStart(true)
+//                                .build()
+//                        )
+//                    }
                     imageGoodsPicture.transitionName =
                         TransitionName.IMAGE_GOODS_PICTURE + delivery.id
                     Glide
@@ -65,7 +76,7 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
                         else imageFav.visibility = View.INVISIBLE
                     }
 
-                    textAmount.text = delivery.deliveryFee
+                    textAmount.text = delivery.displayPrice
 
                     textFrom.transitionName = TransitionName.TEXT_FROM + delivery.id
                     textFrom.text = appResources.getString(R.string.label_from, delivery.routeStart)

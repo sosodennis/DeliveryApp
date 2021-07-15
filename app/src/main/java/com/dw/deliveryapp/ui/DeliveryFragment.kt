@@ -117,8 +117,10 @@ class DeliveryFragment : BaseFragment() {
                     startPostponedEnterTransition()
                 }
             }
-            refreshLayoutDeliveries.setOnRefreshListener {
-                deliveryAdapter.refresh()
+            refreshLayoutDeliveries.apply {
+                setOnRefreshListener {
+                    deliveryAdapter.refresh()
+                }
             }
         }
     }
