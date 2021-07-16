@@ -1,7 +1,6 @@
 package com.dw.deliveryapp.ui.adapter
 
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +18,10 @@ import com.dw.deliveryapp.util.DateTimeFormat
 import com.dw.deliveryapp.util.DateTimeFormatUtil
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
+@Singleton
+class DeliveryAdapter @Inject constructor() :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
     private var onItemClickListener: ((Int, Delivery, ItemDeliveryBinding) -> Unit)? = null
