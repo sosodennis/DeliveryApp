@@ -12,12 +12,15 @@ import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.data.model.DeliveryRemoteKey
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 const val STARTING_PAGE_INDEX = 1
 
 
+@Singleton
 @OptIn(ExperimentalPagingApi::class)
-class DeliveryRemoteMediator(
+class DeliveryRemoteMediator @Inject constructor(
     private val appDatabase: AppDatabase,
     private val deliveryService: DeliveryService,
     private val deliveryMapper: DeliveryMapper
