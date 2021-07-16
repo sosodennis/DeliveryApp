@@ -4,7 +4,15 @@
     <string name="label_to">To</string>
     <string name="label_goods_to_deliver">Goods To Deliver</string>
     <string name="label_delivery_info">Delivery Information</string>
-    <string name="label_others">Others</string>
+    <string name="label_pickup_time">Pickup Time</string>
+    <string name="label_delivery_fee">Delivery Fee</string>
+    <string name="label_surcharge">Surcharge</string>
+    <string name="label_total">Total</string>
+    <string name="label_remarks">Remarks</string>
+    <string name="label_sender_info">Sender Contact</string>
+    <string name="label_sender_name">Name</string>
+    <string name="label_sender_phone">Phone</string>
+    <string name="label_sender_email">Email</string>
     <string name="menu_title_favorite">favorite</string>
     <string name="menu_title_refresh">refresh</string>
     <string name="hint_retry">Retry</string>

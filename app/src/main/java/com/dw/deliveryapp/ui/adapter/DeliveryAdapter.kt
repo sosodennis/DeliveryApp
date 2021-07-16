@@ -61,7 +61,7 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
                         .signature(
                             ObjectKey(
                                 DateTimeFormatUtil.formatStr(
-                                    DateTimeFormat.FORMAT_YYYY_MM_DD_HH,
+                                    DateTimeFormat.FORMAT_yyyy_MM_dd_HH,
                                     Date()
                                 )
                             )
@@ -76,15 +76,18 @@ class DeliveryAdapter @Inject constructor(private val appResources: Resources) :
                         else imageFav.visibility = View.INVISIBLE
                     }
 
-                    textAmount.text = delivery.displayPrice
+                    textPickupTime.transitionName = TransitionName.TEXT_PICKUP_TIME + delivery.id
+                    textPickupTime.text = delivery.convertedPickupTime()
 
-                    textLabelFrom.text = appResources.getString(R.string.label_from)
                     textFrom.transitionName = TransitionName.TEXT_FROM + delivery.id
                     textFrom.text = delivery.routeStart
 
-                    textLabelTo.text = appResources.getString(R.string.label_to)
                     textTo.transitionName = TransitionName.TEXT_TO + delivery.id
                     textTo.text = delivery.routeEnd
+
+                    textTotal.transitionName = TransitionName.TEXT_TOTAL + delivery.id
+                    textTotal.text = delivery.displayTotalPrice()
+
                     setOnClickListener {
                         onItemClickListener?.let {
                             it(

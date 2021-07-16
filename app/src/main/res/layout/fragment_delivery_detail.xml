@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:padding="5dp"
     tools:context=".ui.DeliveryDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
@@ -27,34 +26,29 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_top"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.02" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.98" />
-
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_route"
+            android:id="@+id/card_view_delivery_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintBottom_toTopOf="@id/card_view_goods"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toTopOf="@id/guideline_top">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_delivery_info_v50"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.50" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_hint_delivery_info"
@@ -68,24 +62,159 @@
                     android:paddingBottom="5dp"
                     android:text="@string/label_delivery_info"
                     android:textColor="@color/white"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_from"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintBottom_toTopOf="@id/text_from"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_hint_delivery_info"
+                    app:layout_constraintVertical_chainStyle="spread"
+                    tools:text="From" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_hint_delivery_info"
-                    tools:text="From: " />
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintBottom_toTopOf="@id/text_label_to"
+                    app:layout_constraintStart_toStartOf="@id/text_label_from"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_from"
+                    tools:text="Start Address" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_to"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintBottom_toTopOf="@id/text_to"
+                    app:layout_constraintStart_toStartOf="@id/text_label_from"
+                    app:layout_constraintTop_toBottomOf="@id/text_from"
+                    tools:text="To" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_to"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_from"
-                    tools:text="To: " />
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_to"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_to"
+                    tools:text="End Address" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_pickup_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_pickup_time"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintBaseline_toBaselineOf="@id/text_label_from"
+                    app:layout_constraintBottom_toTopOf="@id/text_to"
+                    app:layout_constraintStart_toStartOf="@id/guideline_delivery_info_v50"
+                    tools:text="Pick Up Time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_pickup_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:padding="5dp"
+
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/text_label_pickup_time"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_pickup_time"
+                    tools:text="16 July 2021 12:12:22" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_delivery_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_delivery_fee"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="@id/guideline_delivery_info_v50"
+                    app:layout_constraintTop_toBottomOf="@id/text_pickup_time"
+                    tools:text="Delivery Fee" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_delivery_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_delivery_fee"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_delivery_fee"
+                    tools:text="$100.10" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_surcharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_surcharge"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="@id/guideline_delivery_info_v50"
+                    app:layout_constraintTop_toBottomOf="@id/text_delivery_fee"
+                    tools:text="Surcharge" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_surcharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_surcharge"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_surcharge"
+                    tools:text="$100.10" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_total"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="@id/guideline_delivery_info_v50"
+                    app:layout_constraintTop_toBottomOf="@id/text_surcharge"
+                    tools:text="Total" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_total"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_total"
+                    tools:text="$100.10" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -94,13 +223,13 @@
             android:id="@+id/card_view_goods"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
-            app:layout_constraintBottom_toTopOf="@id/card_view_delivery_details"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@id/card_view_sender_info"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/card_view_route">
+            app:layout_constraintTop_toBottomOf="@id/card_view_delivery_info">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -118,6 +247,7 @@
                     android:paddingBottom="5dp"
                     android:text="@string/label_goods_to_deliver"
                     android:textColor="@color/white"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,7 +255,7 @@
                     android:id="@+id/image_goods_picture"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:0.5"
@@ -137,12 +267,13 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_delivery_details"
+            android:id="@+id/card_view_sender_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@id/card_view_others"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/card_view_goods">
@@ -152,7 +283,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_hint_others"
+                    android:id="@+id/text_hint_sender_contact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_corner"
@@ -161,18 +292,129 @@
                     android:paddingTop="5dp"
                     android:paddingEnd="15dp"
                     android:paddingBottom="5dp"
-                    android:text="@string/label_others"
+                    android:text="@string/label_sender_info"
                     android:textColor="@color/white"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/text_remarks"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_sender_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_sender_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_hint_others"
-                    tools:text="Remarks" />
+                    app:layout_constraintTop_toBottomOf="@id/text_hint_sender_contact"
+                    tools:text="Name" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_sender_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_sender_name"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_sender_name"
+                    tools:text="Sender Name" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_sender_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_sender_phone"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_sender_name"
+                    tools:text="Phone" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_sender_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:maxWidth="150dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_sender_phone"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_sender_phone"
+                    tools:text="012345678" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_label_sender_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/label_sender_email"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_sender_phone"
+                    tools:text="Email" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_sender_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="@id/text_label_sender_email"
+                    app:layout_constraintTop_toBottomOf="@id/text_label_sender_email"
+                    tools:text="abc@abc.com" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_others"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/card_view_sender_info">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_hint_remarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_corner"
+                    android:elevation="2dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/label_remarks"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_remarks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:padding="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_hint_remarks"
+                    tools:text="Remarks Content" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

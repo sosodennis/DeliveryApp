@@ -62,7 +62,7 @@ class DeliveryDetailFragment : BaseFragment() {
                     .signature(
                         ObjectKey(
                             DateTimeFormatUtil.formatStr(
-                                DateTimeFormat.FORMAT_YYYY_MM_DD_HH,
+                                DateTimeFormat.FORMAT_yyyy_MM_dd_HH,
                                 Date()
                             )
                         )
@@ -75,11 +75,25 @@ class DeliveryDetailFragment : BaseFragment() {
                 }
             }
 
+
             textFrom.transitionName = TransitionName.TEXT_FROM + args.delivery.id
-            textFrom.text = appResources.getString(R.string.label_from, args.delivery.routeStart)
+            textFrom.text = args.delivery.routeStart
 
             textTo.transitionName = TransitionName.TEXT_TO + args.delivery.id
-            textTo.text = appResources.getString(R.string.label_to, args.delivery.routeEnd)
+            textTo.text = args.delivery.routeEnd
+
+            textPickupTime.transitionName = TransitionName.TEXT_PICKUP_TIME + args.delivery.id
+            textPickupTime.text = args.delivery.convertedPickupTime()
+
+            textDeliveryFee.text = args.delivery.deliveryFee
+            textSurcharge.text = args.delivery.surcharge
+
+            textTotal.transitionName = TransitionName.TEXT_TOTAL + args.delivery.id
+            textTotal.text = args.delivery.displayTotalPrice()
+
+            textSenderName.text = args.delivery.senderName
+            textSenderPhone.text = args.delivery.senderPhone
+            textSenderEmail.text = args.delivery.senderEmail
 
             textRemarks.text = args.delivery.remarks
 

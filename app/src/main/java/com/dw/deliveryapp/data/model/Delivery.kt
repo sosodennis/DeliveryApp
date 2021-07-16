@@ -4,6 +4,8 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.dw.deliveryapp.util.AmountUtils
+import com.dw.deliveryapp.util.DateTimeFormat
+import com.dw.deliveryapp.util.DateTimeFormatUtil
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
@@ -21,17 +23,16 @@ data class Delivery(
     val routeEnd: String,
     val senderPhone: String,
     val senderName: String,
-    val senderEmail: String
+    val senderEmail: String,
+    //For sorting if required.
+    var totalPrice: Double
 ) : Parcelable {
     @IgnoredOnParcel
     var fav: Boolean? = false
 
-    @IgnoredOnParcel
-    var displayPrice: String = ""
-
     fun deliveryFeeInDouble(): Double {
         return try {
-            AmountUtils.parseDouble(deliveryFee, "$#,###.##")
+            AmountUtils.parseDouble(deliveryFee)
         } catch (e: NumberFormatException) {
             0.0
         }
@@ -39,9 +40,26 @@ data class Delivery(
 
     fun surchargeInDouble(): Double {
         return try {
-            AmountUtils.parseDouble(surcharge, "$#,###.##")
+            AmountUtils.parseDouble(surcharge)
         } catch (e: NumberFormatException) {
             0.0
         }
     }
+
+    fun displayTotalPrice(): String {
+        return AmountUtils.format(totalPrice)
+    }
+
+    fun convertedPickupTime(): String {
+        return try {
+            DateTimeFormatUtil.convertFormat(
+                pickupTime,
+                "yyyy-MM-dd'T'HH:mm:ssz",
+                DateTimeFormat.FORMAT_yyyy_MM_DD_HH_mm_ss
+            )
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
 }

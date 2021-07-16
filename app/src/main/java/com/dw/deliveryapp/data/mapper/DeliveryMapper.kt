@@ -2,6 +2,7 @@ package com.dw.deliveryapp.data.mapper
 
 import com.dw.deliveryapp.data.dto.DeliveryDto
 import com.dw.deliveryapp.data.model.Delivery
+import com.dw.deliveryapp.util.AmountUtils
 
 class DeliveryMapper : Mapper<Delivery, DeliveryDto> {
     override fun fromEntity(entity: Delivery) = DeliveryDto(
@@ -26,7 +27,9 @@ class DeliveryMapper : Mapper<Delivery, DeliveryDto> {
         domain.route.end,
         domain.sender.phone,
         domain.sender.name,
-        domain.sender.email
+        domain.sender.email,
+        AmountUtils.parseDouble(domain.deliveryFee)
+                + AmountUtils.parseDouble(domain.surcharge)
     )
 
     override fun fromEntityList(initial: List<Delivery>): List<DeliveryDto> {

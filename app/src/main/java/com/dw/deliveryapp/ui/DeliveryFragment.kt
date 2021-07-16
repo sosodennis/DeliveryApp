@@ -97,8 +97,10 @@ class DeliveryFragment : BaseFragment() {
                     val extra =
                         FragmentNavigatorExtras(
                             binding.imageGoodsPicture to TransitionName.IMAGE_GOODS_PICTURE + delivery.id,
+                            binding.textPickupTime to TransitionName.TEXT_PICKUP_TIME + delivery.id,
                             binding.textFrom to TransitionName.TEXT_FROM + delivery.id,
-                            binding.textTo to TransitionName.TEXT_TO + delivery.id
+                            binding.textTo to TransitionName.TEXT_TO + delivery.id,
+                            binding.textTotal to TransitionName.TEXT_TOTAL + delivery.id
                         )
                     navigateSafe(action, extra)
                 }
