@@ -1,7 +1,9 @@
 # DeliveryApp
 
 workspace.xml add
-`<component name="PropertiesComponent">
+```xml
+<component name="PropertiesComponent">
   ....
   <property name="dynamic.classpath" value="true" />
 </component>
+```
