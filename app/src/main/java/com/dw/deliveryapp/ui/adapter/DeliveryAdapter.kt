@@ -16,17 +16,18 @@ import com.dw.deliveryapp.databinding.ItemDeliveryBinding
 import com.dw.deliveryapp.ui.const.TransitionName
 import com.dw.deliveryapp.util.DateTimeFormat
 import com.dw.deliveryapp.util.DateTimeFormatUtil
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+
+@ActivityRetainedScoped
 class DeliveryAdapter @Inject constructor() :
     PagingDataAdapter<Delivery, DeliveryAdapter.DeliveryViewHolder>(DeliveryComparator()) {
 
-    private var onItemClickListener: ((Int, Delivery, ItemDeliveryBinding) -> Unit)? = null
+    private var onItemClickListener: ((Delivery, ItemDeliveryBinding) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Int, Delivery, ItemDeliveryBinding) -> Unit) {
+    fun setOnItemClickListener(listener: (Delivery, ItemDeliveryBinding) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -71,7 +72,7 @@ class DeliveryAdapter @Inject constructor() :
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(imageGoodsPicture)
 
-                    delivery.fav?.let {
+                    delivery.fav.let {
                         if (it) imageFav.visibility = View.VISIBLE
                         else imageFav.visibility = View.INVISIBLE
                     }
@@ -91,7 +92,7 @@ class DeliveryAdapter @Inject constructor() :
                     setOnClickListener {
                         onItemClickListener?.let {
                             it(
-                                absoluteAdapterPosition, delivery, binding
+                                delivery, binding
                             )
                         }
                     }

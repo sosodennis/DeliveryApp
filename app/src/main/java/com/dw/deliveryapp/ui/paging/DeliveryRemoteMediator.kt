@@ -65,6 +65,8 @@ class DeliveryRemoteMediator @Inject constructor(
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
             return MediatorResult.Error(exception)
+        } catch (exception: Exception) {
+            return MediatorResult.Error(exception)
         }
     }
 

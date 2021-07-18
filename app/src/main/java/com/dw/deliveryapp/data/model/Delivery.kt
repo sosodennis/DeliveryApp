@@ -28,23 +28,7 @@ data class Delivery(
     var totalPrice: Double
 ) : Parcelable {
     @IgnoredOnParcel
-    var fav: Boolean? = false
-
-    fun deliveryFeeInDouble(): Double {
-        return try {
-            AmountUtils.parseDouble(deliveryFee)
-        } catch (e: NumberFormatException) {
-            0.0
-        }
-    }
-
-    fun surchargeInDouble(): Double {
-        return try {
-            AmountUtils.parseDouble(surcharge)
-        } catch (e: NumberFormatException) {
-            0.0
-        }
-    }
+    var fav: Boolean = false
 
     fun displayTotalPrice(): String {
         return AmountUtils.format(totalPrice)

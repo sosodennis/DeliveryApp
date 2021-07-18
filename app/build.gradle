@@ -17,8 +17,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.dw.deliveryapp.HiltTestRunner"
     }
 
     buildTypes {
@@ -38,6 +37,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    sourceSets {
+        androidTest {
+            resources.srcDirs += ['src/sharedTest/resources']
+        }
+    }
 }
 
 dependencies {
@@ -46,6 +50,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "androidx.core:core-ktx:$ktx_version"
+
+    //Fragment
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     //View
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -62,6 +69,7 @@ dependencies {
     //Dependency Injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-fragment:$hilt_navigation_version"
 
@@ -92,8 +100,23 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 
     //Test dependencies
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //Local Unit Tests
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_android_testing_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_android_testing_version"
+    testImplementation "com.google.truth:truth:$google_truth_version"
+
+    //Instrumented Unit Tests
+    androidTestImplementation "androidx.arch.core:core-testing:$arch_core_version"
+    androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_android_testing_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_android_testing_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_test_version"
+    androidTestImplementation "com.google.truth:truth:$google_truth_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_android_version"
+
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 }

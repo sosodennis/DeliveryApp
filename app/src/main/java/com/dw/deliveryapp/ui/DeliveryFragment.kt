@@ -53,8 +53,8 @@ class DeliveryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            setupRecyclerView()
             deliveryAdapter.loadStateFlow.collectLatest { loadStates ->
                 if (loadStates.refresh is LoadState.NotLoading
                     || loadStates.refresh is LoadState.Error
@@ -88,10 +88,9 @@ class DeliveryFragment : BaseFragment() {
         binding.apply {
             postponeEnterTransition()
             recyclerView.apply {
-                deliveryAdapter.setOnItemClickListener { index, delivery, binding ->
+                deliveryAdapter.setOnItemClickListener { delivery, binding ->
                     val action =
                         DeliveryFragmentDirections.actionDeliveryFragmentToDeliveryDetailFragment(
-                            index,
                             delivery
                         )
                     val extra =

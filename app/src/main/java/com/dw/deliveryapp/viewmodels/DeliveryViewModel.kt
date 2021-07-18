@@ -1,9 +1,8 @@
 package com.dw.deliveryapp.viewmodels
 
-import androidx.lifecycle.*
-import androidx.paging.PagingData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.dw.deliveryapp.data.model.Delivery
 import com.dw.deliveryapp.data.repository.DeliveryRepository
 import com.dw.deliveryapp.data.repository.FavoriteDeliveryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,13 +17,6 @@ class DeliveryViewModel @Inject constructor(
     private val deliveryRepository: DeliveryRepository,
     private val favoriteDeliveryRepository: FavoriteDeliveryRepository
 ) : ViewModel() {
-    private val _deliveryPagingDataViewStates =
-        deliveryRepository.getDeliveryPage()
-            .cachedIn(viewModelScope)
-            .asLiveData()
-            .let { it as MutableLiveData<PagingData<Delivery>> }
-
-    val deliveryPagingDataStates: LiveData<PagingData<Delivery>> = _deliveryPagingDataViewStates
 
     fun favouriteState(id: String) =
         favoriteDeliveryRepository.favoriteStateFlow(id).flowOn(Dispatchers.IO)
@@ -32,7 +24,6 @@ class DeliveryViewModel @Inject constructor(
     suspend fun getDeliveryPage() = withContext(Dispatchers.IO) {
         deliveryRepository.getDeliveryPage().cachedIn(viewModelScope)
     }
-
 
     fun toggleFavorite(id: String) {
         viewModelScope.launch(Dispatchers.IO) {

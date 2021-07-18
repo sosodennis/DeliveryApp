@@ -1,0 +1,17 @@
+{
+  "id": "5dd5f3a798a879e7830f2d14",
+  "remarks": "Ullamco nulla in in nisi ut sunt proident aliqua.",
+  "pickupTime": "2017-08-28T07:40:01-08:00",
+  "goodsPicture": "https://loremflickr.com/320/240/cat?lock=41848",
+  "deliveryFee": "$155.55",
+  "surcharge": "$13.92",
+  "route": {
+    "start": "Vandervoort Avenue",
+    "end": "Clarendon Road"
+  },
+  "sender": {
+    "phone": "+1 (849) 515-3870",
+    "name": "Pearson Graham",
+    "email": "pearsongraham@comdom.com"
+  }
+}

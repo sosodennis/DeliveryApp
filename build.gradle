@@ -3,47 +3,48 @@ buildscript {
     ext {
         //Build Gradle
         build_gradle_version = "4.2.1"
-
         //View
         appcompat_version = "1.3.0"
         material_version = "1.3.0"
         constraintlayout_version = "2.0.4"
         recyclerview_version = "1.2.1"
-
         //Kotlin
         coroutines_version = "1.4.2"
         kotlin_version = "1.5.0"
         ktx_version = "1.6.0"
-
         //Navigation
         nav_version = "2.4.0-alpha04"
-
         //Dependency Injection
         hilt_version = "2.35"
         hilt_navigation_version = "1.0.0"
-
         //Life Cycle
         lifecycle_version = "2.3.1"
-
         //Paging
         paging_version = "3.0.0"
-
         //Database
         room_database_version = "2.3.0"
         dbinspector_version = "4.0.0"
-
         //Network
         retrofit2_version = "2.9.0"
         okhttp_logging_interceptor = "4.9.1"
-
         //Image Cache
         glide_version = "4.12.0"
-
         //Shimmer (Loading)
         shimmer_version = "0.5.0"
-
         //Memory Leak Checking
         leakcanary_version = "2.7"
+        //JUnit
+        junit_version = "4.13.2"
+        ext_junit_version = "1.1.3"
+        //Espresso
+        espresso_core_version = "3.3.0"
+        //Hilt Testing
+        hilt_android_testing_version = "2.35"
+        fragment_version = "1.3.5"
+        google_truth_version = "1.0.1"
+        arch_core_version = "2.1.0"
+        kotlinx_coroutines_test_version = "1.2.1"
+        mockito_android_version = "3.2.4"
     }
 
     repositories {
